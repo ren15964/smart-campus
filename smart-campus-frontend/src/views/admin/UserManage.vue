@@ -84,6 +84,11 @@
 
       <!-- 用户列表 -->
       <el-table :data="tableData" border stripe v-loading="loading">
+        <template #empty>
+          <AppEmpty description="暂无用户">
+            <el-button type="primary" @click="handleReset">清空筛选</el-button>
+          </AppEmpty>
+        </template>
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="username" label="用户名" width="120" />
         <el-table-column prop="realName" label="姓名" width="100" />
@@ -136,6 +141,7 @@ import { ref, reactive, onMounted, nextTick } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { getUserList, addUser, updateUser, deleteUser } from '@/api/user'
+import AppEmpty from '@/components/AppEmpty.vue'
 
 const loading = ref(false)
 const tableData = ref([])

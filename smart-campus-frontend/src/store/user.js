@@ -4,7 +4,8 @@ import { login, register } from '@/api/user'
 export const useUserStore = defineStore('user', {
   state: () => ({
     token: localStorage.getItem('token') || '',
-    userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}')
+    userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+    ui: JSON.parse(localStorage.getItem('ui') || '{}')
   }),
 
   getters: {
@@ -21,6 +22,12 @@ export const useUserStore = defineStore('user', {
     setUserInfo(userInfo) {
       this.userInfo = userInfo
       localStorage.setItem('userInfo', JSON.stringify(userInfo))
+    },
+
+    setMenuCollapsed(v) {
+      const next = { ...(this.ui || {}), menuCollapsed: !!v }
+      this.ui = next
+      localStorage.setItem('ui', JSON.stringify(next))
     },
 
     async login(loginForm) {
@@ -46,8 +53,10 @@ export const useUserStore = defineStore('user', {
     logout() {
       this.token = ''
       this.userInfo = {}
+      this.ui = {}
       localStorage.removeItem('token')
       localStorage.removeItem('userInfo')
+      localStorage.removeItem('ui')
     }
   }
 })

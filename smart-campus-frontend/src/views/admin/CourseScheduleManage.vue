@@ -29,6 +29,11 @@
       </el-form>
 
       <el-table :data="scheduleList" v-loading="loading" border style="width: 100%">
+        <template #empty>
+          <AppEmpty description="暂无开课计划">
+            <el-button type="primary" @click="handleReset">清空筛选</el-button>
+          </AppEmpty>
+        </template>
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="courseName" label="课程名称" width="150" />
         <el-table-column prop="teacherName" label="任课教师" width="120" />
@@ -178,6 +183,7 @@ import {
 import { getCourseList } from '@/api/course'
 import { getUserList } from '@/api/user'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import AppEmpty from '@/components/AppEmpty.vue'
 
 const scheduleList = ref([])
 const loading = ref(false)

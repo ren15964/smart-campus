@@ -26,6 +26,11 @@
       </el-form>
 
       <el-table :data="noticeList" v-loading="loading" border style="width: 100%">
+        <template #empty>
+          <AppEmpty description="暂无通知">
+            <el-button type="primary" @click="handleReset">清空筛选</el-button>
+          </AppEmpty>
+        </template>
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="title" label="标题" show-overflow-tooltip />
         <el-table-column prop="publisherName" label="发布人" width="120" />
@@ -118,6 +123,7 @@ import {
   updateNotice,
   deleteNotice,
 } from '@/api/notice'
+import AppEmpty from '@/components/AppEmpty.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const noticeList = ref([])

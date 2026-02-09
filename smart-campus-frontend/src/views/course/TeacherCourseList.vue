@@ -25,6 +25,11 @@
       </el-form>
 
       <el-table :data="courseList" v-loading="loading" border style="width: 100%">
+        <template #empty>
+          <AppEmpty description="暂无课程">
+            <el-button type="primary" @click="handleReset">清空筛选</el-button>
+          </AppEmpty>
+        </template>
         <el-table-column prop="courseCode" label="课程编码" width="100" />
         <el-table-column prop="courseName" label="课程名称" />
         <el-table-column prop="credit" label="学分" width="80" />
@@ -66,6 +71,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getTeacherCourses } from '@/api/course'
 import { ElMessage } from 'element-plus'
+import AppEmpty from '@/components/AppEmpty.vue'
 
 const router = useRouter()
 

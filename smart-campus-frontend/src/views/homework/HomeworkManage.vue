@@ -26,6 +26,11 @@
       </el-form>
 
       <el-table :data="homeworkList" v-loading="loading" border style="width: 100%">
+        <template #empty>
+          <AppEmpty description="暂无作业">
+            <el-button type="primary" @click="handleReset">清空筛选</el-button>
+          </AppEmpty>
+        </template>
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="courseName" label="课程名称" width="150" />
         <el-table-column prop="title" label="作业标题" show-overflow-tooltip />
@@ -130,6 +135,7 @@ import {
 import { getTeacherCourses } from '@/api/course'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRouter } from 'vue-router'
+import AppEmpty from '@/components/AppEmpty.vue'
 
 const router = useRouter()
 const homeworkList = ref([])

@@ -25,6 +25,11 @@
       </el-form>
 
       <el-table :data="courseList" v-loading="loading" border style="width: 100%">
+        <template #empty>
+          <AppEmpty description="暂无可选课程">
+            <el-button type="primary" @click="handleReset">清空筛选</el-button>
+          </AppEmpty>
+        </template>
         <el-table-column prop="courseCode" label="课程编码" width="100" />
         <el-table-column prop="courseName" label="课程名称" />
         <el-table-column prop="teacherName" label="任课教师" width="120" />
@@ -73,6 +78,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { getAvailableCourses, selectCourse } from '@/api/course-selection'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import AppEmpty from '@/components/AppEmpty.vue'
 
 const courseList = ref([])
 const loading = ref(false)

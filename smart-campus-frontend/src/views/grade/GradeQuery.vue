@@ -23,6 +23,11 @@
       </el-form>
 
       <el-table :data="gradeList" v-loading="loading" border style="width: 100%; margin-bottom: 20px;">
+        <template #empty>
+          <AppEmpty description="暂无成绩数据">
+            <el-button type="primary" @click="handleReset">清空筛选</el-button>
+          </AppEmpty>
+        </template>
         <el-table-column prop="semester" label="学期" width="120" />
         <el-table-column prop="courseCode" label="课程编码" width="120" />
         <el-table-column prop="courseName" label="课程名称" />
@@ -65,6 +70,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { getMyGrades, getGradeStatistics } from '@/api/grade'
 import { ElMessage } from 'element-plus'
+import AppEmpty from '@/components/AppEmpty.vue'
 
 const gradeList = ref([])
 const loading = ref(false)

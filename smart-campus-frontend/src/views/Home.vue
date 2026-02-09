@@ -4,6 +4,11 @@
       <!-- 头部 -->
       <el-header class="header">
         <div class="header-left">
+          <el-button class="collapse-btn" text @click="toggleCollapse">
+            <el-icon>
+              <component :is="isCollapsed ? 'Expand' : 'Fold'" />
+            </el-icon>
+          </el-button>
           <h2>智慧校园管理平台</h2>
         </div>
         <div class="header-right">
@@ -30,6 +35,8 @@
             :default-active="activeMenu"
             class="menu"
             router
+            :collapse="isCollapsed"
+            :default-openeds="openedGroups"
           >
             <el-menu-item index="/">
               <el-icon><House /></el-icon>
@@ -71,6 +78,7 @@
                 <div class="page-head__title">{{ pageTitle }}</div>
                 <el-breadcrumb separator="/" class="page-head__breadcrumb">
                   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                  <el-breadcrumb-item v-if="currentGroupTitle">{{ currentGroupTitle }}</el-breadcrumb-item>
                   <el-breadcrumb-item v-for="b in breadcrumbItems" :key="b.key">
                     {{ b.title }}
                   </el-breadcrumb-item>
@@ -127,6 +135,8 @@ const activeMenu = computed(() => {
 
 const pageTitle = computed(() => route?.meta?.title || '')
 
+const isCollapsed = computed(() => userStore?.ui?.menuCollapsed === true)
+
 const breadcrumbItems = computed(() => {
   // matched: [Home, Child]；我们固定显示“首页”，这里只输出子级标题即可
   const matched = route.matched || []
@@ -134,6 +144,16 @@ const breadcrumbItems = computed(() => {
   const title = leaf?.meta?.title || ''
   if (!title || route.path === '/') return []
   return [{ key: leaf.name || leaf.path, title }]
+})
+
+const currentGroupTitle = computed(() => {
+  if (route.path === '/') return ''
+  const matched = route.matched || []
+  const leaf = matched[matched.length - 1]
+  const rawPath = leaf?.path || route.path || ''
+  const p = String(rawPath).replace(/^\//, '')
+  const gKey = inferGroupKey({ path: p })
+  return (groupMeta[gKey] || groupMeta.other).title
 })
 
 const getRoleName = (role) => {
@@ -212,6 +232,18 @@ const menuGroups = computed(() => {
   return arr
 })
 
+const openedGroups = computed(() => {
+  if (isCollapsed.value) return []
+  if (route.path === '/') return []
+  const p = String(route.path || '').replace(/^\//, '')
+  const gKey = inferGroupKey({ path: p })
+  return [gKey]
+})
+
+function toggleCollapse() {
+  userStore.setMenuCollapsed(!isCollapsed.value)
+}
+
 const handleCommand = (command) => {
   if (command === 'logout') {
     ElMessageBox.confirm('确定要退出登录吗？', '提示', {
@@ -274,6 +306,27 @@ const handleCommand = (command) => {
       background: rgba(255, 255, 255, 0.09);
     }
   }
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.collapse-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.collapse-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.09);
 }
 
 .header-right {

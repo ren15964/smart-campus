@@ -22,6 +22,11 @@
       </el-form>
 
       <el-table :data="resourceList" v-loading="loading" border style="width: 100%">
+        <template #empty>
+          <AppEmpty description="暂无资源">
+            <el-button type="primary" @click="handleReset">清空筛选</el-button>
+          </AppEmpty>
+        </template>
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="resourceName" label="资源名称" show-overflow-tooltip />
         <el-table-column prop="resourceType" label="类型" width="100" />
@@ -132,6 +137,7 @@ import { ref, reactive, onMounted, nextTick } from 'vue'
 import { getResourceList, uploadResource, updateResource, deleteResource } from '@/api/resource'
 import { getTeacherCourses } from '@/api/course'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import AppEmpty from '@/components/AppEmpty.vue'
 
 const resourceList = ref([])
 const loading = ref(false)
