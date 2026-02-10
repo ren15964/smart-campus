@@ -46,7 +46,8 @@ public class FileUtil {
         Path targetPath = uploadPath.resolve(newFileName);
         Files.copy(file.getInputStream(), targetPath);
 
-        return targetPath.toString();
+        // 返回相对路径，并统一使用正斜杠，避免 Windows/Linux 路径差异导致前端访问问题
+        return targetPath.toString().replace("\\", "/");
     }
 
     /**

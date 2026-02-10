@@ -60,7 +60,12 @@ public class CourseSelectionServiceImpl extends ServiceImpl<CourseSelectionMappe
             wrapper.eq(CourseSchedule::getSemester, semester);
         }
 
-        // TODO: 根据keyword过滤课程名称或教师名称 (需要联表查询)
+        if (StringUtils.hasText(keyword)) {
+            // 通过 Course 表进行联表查询（这里使用 MyBatis-Plus 的子查询简化实现）
+            wrapper.and(w -> w.inSql(CourseSchedule::getCourseId, "select id from course where course_name like '%" + keyword + "%' or course_code like '%" + keyword + "%'")
+                    .or()
+                    .inSql(CourseSchedule::getTeacherId, "select id from user where real_name like '%" + keyword + "%'"));
+        }
 
         // 只查询开放选课的课程
         wrapper.eq(CourseSchedule::getStatus, 1);

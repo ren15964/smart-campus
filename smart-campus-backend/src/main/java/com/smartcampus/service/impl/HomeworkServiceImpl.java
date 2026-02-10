@@ -192,6 +192,14 @@ public class HomeworkServiceImpl extends ServiceImpl<HomeworkMapper, Homework> i
         homework.setUpdateTime(LocalDateTime.now());
         homeworkMapper.updateById(homework);
 
-        // TODO: 删除相关提交和成绩记录（可选，根据需求决定是物理删除还是逻辑删除）
+        // 逻辑删除相关提交记录
+        LambdaQueryWrapper<HomeworkSubmit> submitWrapper = new LambdaQueryWrapper<>();
+        submitWrapper.eq(HomeworkSubmit::getHomeworkId, id);
+        List<HomeworkSubmit> submits = homeworkSubmitMapper.selectList(submitWrapper);
+        for (HomeworkSubmit submit : submits) {
+            submit.setIsDeleted(1);
+            submit.setUpdateTime(LocalDateTime.now());
+            homeworkSubmitMapper.updateById(submit);
+        }
     }
 }

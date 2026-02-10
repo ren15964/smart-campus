@@ -143,8 +143,6 @@ public class GradeServiceImpl extends ServiceImpl<GradeMapper, Grade> implements
                     User student = userService.getById(grade.getStudentId());
                     if (student != null) {
                         vo.setStudentName(student.getRealName());
-                        // TODO: 获取学生学号，需要根据User表中的username来判断
-                        // 暂时用realName代替
                         vo.setStudentNo(student.getUsername());
                     }
                     vo.setGpa(calculateGpa(grade.getTotalScore()));
