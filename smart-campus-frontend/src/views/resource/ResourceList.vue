@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getResourceList, downloadResource } from '@/api/resource'
 import { ElMessage } from 'element-plus'
@@ -70,9 +70,8 @@ import AppEmpty from '@/components/AppEmpty.vue'
 
 const route = useRoute()
 const router = useRouter()
-const scheduleId = route.params.scheduleId // 从路由获取开课计划ID
 
-const resourceList = ref([])
+const allResources = ref([])
 const loading = ref(false)
 const searchForm = reactive({
   chapter: '',
@@ -85,22 +84,27 @@ const pagination = reactive({
   total: 0,
 })
 
+const resourceList = computed(() => {
+  const start = (pagination.current - 1) * pagination.size
+  const end = start + pagination.size
+  return allResources.value.slice(start, end)
+})
+
 const fetchResources = async () => {
-  if (!scheduleId) {
-    ElMessage.error('缺少开课计划ID，无法获取资源')
+  const currentScheduleId = route.params.scheduleId // 使用最新的scheduleId
+  if (!currentScheduleId || isNaN(Number(currentScheduleId))) {
+    ElMessage.error('缺少或无效的开课计划ID，无法获取资源')
     return
   }
   loading.value = true
   try {
     const res = await getResourceList({
-      scheduleId: scheduleId,
-      current: pagination.current,
-      size: pagination.size,
+      scheduleId: currentScheduleId,
       ...searchForm,
     })
     if (res.code === 200) {
-      resourceList.value = res.data.records
-      pagination.total = res.data.total
+      allResources.value = Array.isArray(res.data) ? res.data : []
+      pagination.total = allResources.value.length
     }
   } catch (error) {
     console.error('获取资源列表失败:', error)
@@ -124,12 +128,10 @@ const handleReset = () => {
 
 const handleSizeChange = (val) => {
   pagination.size = val
-  fetchResources()
 }
 
 const handleCurrentChange = (val) => {
   pagination.current = val
-  fetchResources()
 }
 
 const handlePreview = (row) => {
@@ -143,8 +145,7 @@ const handlePreview = (row) => {
 
 const handleDownload = async (row) => {
   try {
-    const response = await downloadResource(row.id)
-    const blob = new Blob([response], { type: response.headers['content-type'] })
+    const blob = await downloadResource(row.id)
     const downloadUrl = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = downloadUrl
@@ -164,14 +165,22 @@ const handleBack = () => {
   router.back()
 }
 
-onMounted(() => {
-  fetchResources()
-})
+// 监听路由参数变化，重新加载资源
+watch(
+  () => route.params.scheduleId,
+  (newScheduleId, oldScheduleId) => {
+    if (newScheduleId !== oldScheduleId) {
+      pagination.current = 1
+      fetchResources()
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped lang="scss">
 .resource-list-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -181,14 +190,14 @@ onMounted(() => {
 }
 
 .search-form {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 24px; // 略微增大间距
+  padding-bottom: 15px; // 调整内边距
+  border-bottom: 1px solid var(--app-border); // 使用全局边框变量
 }
 
 .pagination-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 24px; // 略微增大间距
 }
 </style>

@@ -266,7 +266,9 @@ const handleCommand = (command) => {
 .home-container {
   width: 100%;
   height: 100vh;
+  font-family: 'Inter', sans-serif; // 使用 Inter 字体，与全局保持一致
   background: transparent;
+  overflow: hidden;
 }
 
 .el-container {
@@ -277,12 +279,13 @@ const handleCommand = (command) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.92);
+  background: var(--app-surface); // 使用浅色背景变量
+  color: var(--app-text); // 使用浅色文本变量
   padding: 0 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid var(--app-border); // 使用浅色边框变量
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); // 调整阴影使其更柔和
 
   .header-left h2 {
     margin: 0;
@@ -297,13 +300,13 @@ const handleCommand = (command) => {
     cursor: pointer;
     padding: 8px 10px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    transition: transform 180ms ease, background 180ms ease;
+    background: var(--app-bg-soft);
+    border: 1px solid var(--app-border);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
     &:hover {
       transform: translateY(-1px);
-      background: rgba(255, 255, 255, 0.09);
+      background: var(--app-bg);
     }
   }
 }
@@ -318,15 +321,15 @@ const handleCommand = (command) => {
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.92);
-  transition: transform 180ms ease, background 180ms ease;
+  background: var(--app-bg-soft);
+  border: 1px solid var(--app-border);
+  color: var(--app-text);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .collapse-btn:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.09);
+  background: var(--app-bg);
 }
 
 .header-right {
@@ -336,10 +339,11 @@ const handleCommand = (command) => {
 }
 
 .aside {
-  background: rgba(255, 255, 255, 0.06);
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--app-surface);
+  border-right: 1px solid var(--app-border);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  transition: width 0.3s ease; // 添加宽度过渡动画
 
   .menu {
     border: none;
@@ -350,123 +354,110 @@ const handleCommand = (command) => {
 
 .main {
   background: transparent;
-  padding: 18px;
+  padding: 24px;
 }
 
 .page-shell {
   width: 100%;
   height: 100%;
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - 60px - 36px);
 }
 
-.page-head {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
+
 
 .page-head__left {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .page-head__title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
-  color: rgba(15, 23, 42, 0.86);
+  color: var(--app-text);
+  letter-spacing: 0.5px;
 }
 
 .page-head__breadcrumb {
   :deep(.el-breadcrumb__inner) {
-    color: rgba(15, 23, 42, 0.62);
+    color: var(--app-text-muted);
   }
   :deep(.el-breadcrumb__item:last-child .el-breadcrumb__inner) {
-    color: rgba(15, 23, 42, 0.82);
+    color: var(--app-text);
     font-weight: 700;
   }
 }
 
 .welcome {
   width: 100%;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 60px - 48px); // Adjust height for new padding
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 12px;
-  gap: 16px;
+  padding: 24px;
+  gap: 24px;
 }
 
-.welcome-card {
-  width: min(920px, 100%);
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 18px;
-  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.34);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 26px 28px;
-  animation: pageEnter 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
+
 
 .dashboard {
   width: min(920px, 100%);
   margin: 0 auto;
+  padding-top: 20px;
 }
 
 .welcome-card__title {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: 0.3px;
-  color: rgba(15, 23, 42, 0.9);
+  letter-spacing: 0.5px;
+  color: var(--app-text);
 }
 
 .welcome-card__meta {
-  margin-top: 16px;
+  margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // 响应式布局
+  gap: 16px;
 }
 
 .meta-item {
-  background: rgba(2, 6, 23, 0.04);
-  border: 1px solid rgba(2, 6, 23, 0.08);
-  border-radius: 14px;
-  padding: 14px 14px;
+  background: var(--app-bg-soft);
+  border: 1px solid var(--app-border);
+  border-radius: 18px; // 略微增大圆角
+  padding: 18px 20px; // 略微增大内边距
 }
 
 .meta-label {
-  font-size: 12px;
-  color: rgba(15, 23, 42, 0.6);
+  font-size: 13px;
+  color: var(--app-text-muted);
 }
 
 .meta-value {
-  margin-top: 6px;
-  font-size: 16px;
+  margin-top: 8px;
+  font-size: 17px;
   font-weight: 600;
-  color: rgba(15, 23, 42, 0.88);
+  color: var(--app-text);
 }
 
 :deep(.el-menu-item) {
   border-radius: 12px;
   margin: 6px 0;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 :deep(.el-menu-item.is-active) {
-  background: rgba(34, 211, 238, 0.14) !important;
-  color: rgba(255, 255, 255, 0.92) !important;
+  background: var(--primary-light-color) !important; // Element Plus 亮蓝色
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2); // 添加轻微阴影
 }
 
 :deep(.el-menu-item:hover) {
-  background: rgba(255, 255, 255, 0.09) !important;
+  background: var(--app-bg-soft) !important; // 悬停背景使用浅色柔和背景
+  transform: translateX(4px); // 添加X轴位移效果
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); // 添加轻微阴影
 }
+
 
 @keyframes pageEnter {
   from {

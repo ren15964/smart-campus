@@ -347,7 +347,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .user-manage {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -357,11 +357,11 @@ onMounted(() => {
 }
 
 .search-form {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .pagination {
-  margin-top: 20px;
+  margin-top: 24px;
   display: flex;
   justify-content: flex-end;
 }

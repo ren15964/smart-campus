@@ -212,11 +212,19 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.admin-classroom-manage h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--app-text);
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
 .admin-classroom-manage {
-  padding: 20px;
+  padding: 24px;
 }
 .header-buttons {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 24px; 
 }
 </style>

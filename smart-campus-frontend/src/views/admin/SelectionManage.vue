@@ -2,7 +2,7 @@
   <div class="selection-manage-container">
     <el-card class="box-card">
       <template #header>
-        <div class="card-header">
+        <div class="card-header" style="font-size: 20px; font-weight: 700; color: var(--app-text);">
           <span>选课管理</span>
         </div>
       </template>
@@ -211,7 +211,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .selection-manage-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -221,11 +221,11 @@ onMounted(() => {
 }
 
 .custom-tabs {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .period-form {
-  width: 500px;
+  width: min(600px, 100%);
   margin: 20px auto;
 }
 
@@ -234,6 +234,14 @@ onMounted(() => {
 }
 
 .statistics-display {
-  padding: 20px;
+  padding: 0;
+}
+
+:deep(.el-descriptions__label) {
+  color: var(--app-text-muted);
+}
+
+:deep(.el-descriptions__content) {
+  color: var(--app-text);
 }
 </style>

@@ -15,9 +15,19 @@ import java.util.List;
 public interface CourseResourceService extends IService<CourseResource> {
 
     /**
-     * 获取课程资源列表
+     * 获取课程资源列表（按开课计划）
      */
-    List<CourseResourceVO> getCourseResources(Long scheduleId, String chapter);
+    List<CourseResourceVO> getCourseResources(Long scheduleId, String chapter, String keyword);
+
+    /**
+     * 获取我上传的资源（教师资源管理）
+     */
+    List<CourseResourceVO> getMyUploadedResources(Long uploaderId, String chapter, String keyword);
+
+    /**
+     * 获取全量资源（管理员）
+     */
+    List<CourseResourceVO> getAllResources(String chapter, String keyword);
 
     /**
      * 教师上传课程资源

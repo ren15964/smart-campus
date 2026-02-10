@@ -70,7 +70,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .course-students-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {

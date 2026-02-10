@@ -1,6 +1,7 @@
 <template>
   <div class="personal-center-container">
     <h1>个人中心</h1>
+
     <el-card class="box-card">
       <template #header>
         <div class="clearfix">
@@ -8,6 +9,7 @@
           <el-button style="float: right; padding: 3px 0" link @click="editUserInfo">编辑</el-button>
         </div>
       </template>
+
       <div class="user-info-item">
         <label>用户名:</label>
         <span>{{ userInfo.username }}</span>
@@ -119,13 +121,21 @@ export default {
 </script>
 
 <style scoped>
+.personal-center-container h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--app-text);
+  letter-spacing: 0.5px;
+  margin-bottom: 20px; 
+}
 .personal-center-container {
-  padding: 20px;
+  padding: 24px; 
 }
 
 .box-card {
-  width: 600px;
-  margin-top: 20px;
+  max-width: 800px; 
+  width: 100%; 
+  margin: 20px auto; 
 }
 
 .clearfix:before,
@@ -138,12 +148,14 @@ export default {
 }
 
 .user-info-item {
-  margin-bottom: 10px;
-  font-size: 14px;
+  margin-bottom: 14px; 
+  font-size: 15px; 
+  color: var(--app-text);
 }
 
 .user-info-item label {
-  font-weight: bold;
-  margin-right: 10px;
+  font-weight: 600; 
+  margin-right: 12px; 
+  color: var(--app-text-muted); 
 }
 </style>

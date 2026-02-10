@@ -22,16 +22,15 @@
           clearable
           @clear="fetchNewsList"
           @keyup.enter="fetchNewsList"
-          style="width: 200px; margin-left: 10px;"
         ></el-input>
-        <el-button type="primary" style="margin-left: 10px;" @click="fetchNewsList">搜索</el-button>
+        <el-button type="primary" @click="fetchNewsList">搜索</el-button>
       </div>
 
       <el-row :gutter="20">
         <el-col :span="18">
           <div class="news-items">
             <el-card
-              v-for="news in paginatedNewsList"
+              v-for="news in filteredNewsList"
               :key="news.id"
               class="news-item-card"
               shadow="hover"
@@ -40,13 +39,13 @@
               <div class="news-item-content">
                 <h3>{{ news.title }}</h3>
                 <div class="news-meta">
-                  <span class="category-tag">{{ news.categoryName }}</span>
-                  <span class="publish-date">{{ news.publishDate }}</span>
+                  <span class="category-tag">{{ news.category }}</span>
+                  <span class="publish-date">{{ news.publishTime }}</span>
                 </div>
-                <p class="news-summary">{{ news.content.substring(0, 100) }}...</p>
+                <p class="news-summary">点击查看详情...</p>
               </div>
             </el-card>
-            <AppEmpty v-if="paginatedNewsList.length === 0" description="暂无新闻" />
+            <AppEmpty v-if="filteredNewsList.length === 0" description="暂无新闻" />
           </div>
           <el-pagination
             @size-change="handleSizeChange"
@@ -55,8 +54,8 @@
             :page-sizes="[5, 10, 15, 20]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="filteredNewsList.length"
-            v-if="filteredNewsList.length > 0"
+            :total="total"
+            v-if="total > 0"
           ></el-pagination>
         </el-col>
 
@@ -83,10 +82,33 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import AppEmpty from '@/components/AppEmpty.vue';
+import axios from 'axios';
+
+// 配置axios基础URL
+axios.defaults.baseURL = 'http://localhost:8080/api';
+
+// 添加请求拦截器，统一设置Authorization头
+axios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token'); // 假设token存储在localStorage中
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
+
+// 辅助函数：根据分类ID获取分类名称
+const getCategoryNameById = (categoryId) => {
+  const category = categories.value.find(cat => cat.id === categoryId);
+  return category ? category.name : '';
+};
+
 
 const router = useRouter();
 
 const newsList = ref([]);
+const allNewsList = ref([]); // 用于存储原始的所有新闻数据
 const categories = ref([]);
 const hotNewsList = ref([]);
 
@@ -95,46 +117,81 @@ const searchQuery = ref('');
 
 const currentPage = ref(1);
 const pageSize = ref(10);
+const total = ref(0);
 
-// 模拟获取新闻列表
-const fetchNewsList = () => {
-  // 模拟API调用
-  newsList.value = [
-    { id: 1, title: '校园招聘会通知', categoryId: 1, categoryName: '通知', publishDate: '2026-02-01', content: '详细内容1...' },
-    { id: 2, title: '图书馆闭馆公告', categoryId: 2, categoryName: '公告', publishDate: '2026-02-05', content: '详细内容2...' },
-    { id: 3, title: '最新学术讲座预告', categoryId: 3, categoryName: '讲座', publishDate: '2026-02-08', content: '详细内容3...' },
-    { id: 4, title: '春季运动会报名', categoryId: 4, categoryName: '活动', publishDate: '2026-01-28', content: '详细内容4...' },
-    { id: 5, title: '学生会招新通知', categoryId: 1, categoryName: '通知', publishDate: '2026-01-20', content: '详细内容5...' },
-    { id: 6, title: '关于寒假放假通知', categoryId: 2, categoryName: '公告', publishDate: '2026-01-15', content: '详细内容6...' },
-    { id: 7, title: '软件工程前沿技术讲座', categoryId: 3, categoryName: '讲座', publishDate: '2026-02-10', content: '详细内容7...' },
-    { id: 8, title: '英语角活动预告', categoryId: 4, categoryName: '活动', publishDate: '2026-02-09', content: '详细内容8...' },
-    { id: 9, title: '校医院调整作息时间', categoryId: 2, categoryName: '公告', publishDate: '2026-02-07', content: '详细内容9...' },
-    { id: 10, title: 'ACM编程大赛通知', categoryId: 1, categoryName: '通知', publishDate: '2026-02-03', content: '详细内容10...' },
-  ];
+// 获取新闻列表
+const fetchNewsList = async () => {
+  try {
+    const params = {
+      current: currentPage.value,
+      size: pageSize.value,
+    };
+    if (selectedCategory.value) {
+      params.category = getCategoryNameById(selectedCategory.value);
+    }
+    // 搜索功能仍然在前端处理，因为后端API没有明确的标题搜索参数
+    const response = await axios.get('/news/list', { params });
+    if (response.data.code === 200 && response.data.data) {
+      newsList.value = response.data.data.records;
+      total.value = response.data.data.total;
+    } else {
+      newsList.value = [];
+      total.value = 0;
+    }
+  } catch (error) {
+    console.error('获取新闻列表失败:', error);
+    newsList.value = [];
+    total.value = 0;
+  }
 };
 
-// 模拟获取新闻分类
-const fetchCategories = () => {
-  // 模拟API调用
-  categories.value = [
-    { id: 1, name: '通知' },
-    { id: 2, name: '公告' },
-    { id: 3, name: '讲座' },
-    { id: 4, name: '活动' }
-  ];
+// 获取新闻分类
+const fetchCategories = async () => {
+  try {
+    // 假设可以通过新闻列表接口获取所有分类
+    const response = await axios.get('/news/list', { params: { current: 1, size: 999 } }); // 获取足够多的新闻来提取分类
+    if (response.data.code === 200 && response.data.data && response.data.data.records) {
+      const uniqueCategories = new Set();
+      response.data.data.records.forEach(news => {
+        if (news.category) {
+          uniqueCategories.add(news.category);
+        }
+      });
+      categories.value = Array.from(uniqueCategories).map((name, index) => ({
+        id: index + 1, // 模拟ID
+        name: name
+      }));
+    }
+  } catch (error) {
+    console.error('获取新闻分类失败:', error);
+    categories.value = [];
+  }
 };
 
-// 模拟获取热门新闻
-const fetchHotNews = () => {
-  // 模拟API调用，这里简单地取最新的几条作为热门新闻
-  hotNewsList.value = newsList.value.slice(0, 5);
+// 获取热门新闻
+const fetchHotNews = async () => {
+  try {
+    const response = await axios.get('/news/list', { params: { current: 1, size: 10 } }); // 获取最新的10条新闻
+    if (response.data.code === 200 && response.data.data && response.data.data.records) {
+      // 假设根据viewCount排序，如果没有viewCount或者为0，则根据publishTime排序
+      hotNewsList.value = response.data.data.records.sort((a, b) => {
+        if (b.viewCount && a.viewCount) {
+          return b.viewCount - a.viewCount;
+        } else {
+          return new Date(b.publishTime).getTime() - new Date(a.publishTime).getTime();
+        }
+      }).slice(0, 5); // 取前5条作为热门新闻
+    } else {
+      hotNewsList.value = [];
+    }
+  } catch (error) {
+    console.error('获取热门新闻失败:', error);
+    hotNewsList.value = [];
+  }
 };
 
 const filteredNewsList = computed(() => {
   let filtered = newsList.value;
-  if (selectedCategory.value) {
-    filtered = filtered.filter(news => news.categoryId === selectedCategory.value);
-  }
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase();
     filtered = filtered.filter(news => news.title.toLowerCase().includes(query));
@@ -142,11 +199,6 @@ const filteredNewsList = computed(() => {
   return filtered;
 });
 
-const paginatedNewsList = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
-  return filteredNewsList.value.slice(start, end);
-});
 
 const handleSizeChange = (val) => {
   pageSize.value = val;
@@ -170,7 +222,7 @@ onMounted(() => {
 
 <style scoped>
 .news-list-container {
-  padding: 20px;
+  padding: 24px;
 }
 .box-card {
   margin-bottom: 20px;
@@ -179,16 +231,24 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px; 
+  font-weight: 700; 
+  color: var(--app-text); 
 }
 .filter-section {
-  margin-bottom: 20px;
+  margin-bottom: 24px; 
   display: flex;
   align-items: center;
+  flex-wrap: wrap; 
+  gap: 10px; 
+}
+
+.filter-section .el-select,
+.filter-section .el-input {
+  width: 200px; 
 }
 .news-items {
-  min-height: 400px; /* 保证高度，避免内容为空时布局跳动 */
+  min-height: 400px; 
 }
 .news-item-card {
   margin-bottom: 15px;
@@ -196,19 +256,19 @@ onMounted(() => {
 }
 .news-item-content h3 {
   margin-top: 0;
-  margin-bottom: 10px;
-  color: #303133;
+  margin-bottom: 12px;  
+  color: var(--app-text); 
 }
 .news-meta {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px; 
   font-size: 13px;
-  color: #909399;
+  color: var(--app-text-muted); 
 }
 .category-tag {
-  background-color: #ecf5ff;
-  color: #409eff;
+  background-color: var(--el-color-primary-light-9); 
+  color: var(--el-color-primary); 
   padding: 3px 8px;
   border-radius: 4px;
   margin-right: 10px;
@@ -218,11 +278,11 @@ onMounted(() => {
 }
 .news-summary {
   font-size: 14px;
-  color: #606266;
+  color: var(--app-text); 
   line-height: 1.6;
 }
 .hot-news-card {
-  margin-left: 20px;
+  margin-left: 0; 
 }
 .hot-news-list {
   list-style: none;
@@ -232,14 +292,14 @@ onMounted(() => {
 .hot-news-list li {
   padding: 8px 0;
   cursor: pointer;
-  border-bottom: 1px dashed #ebeef5;
-  color: #606266;
+  border-bottom: 1px dashed var(--app-border); 
+  color: var(--app-text); 
   font-size: 14px;
 }
 .hot-news-list li:last-child {
   border-bottom: none;
 }
 .hot-news-list li:hover {
-  color: #409eff;
+  color: var(--el-color-primary); 
 }
 </style>

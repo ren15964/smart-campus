@@ -106,10 +106,10 @@ const goRegister = () => router.push('/register')
 .login-box {
   width: 400px;
   padding: 40px;
-  background: rgba(255, 255, 255, 0.82);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  background: var(--app-surface);
+  border-radius: var(--app-radius);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   position: relative;
@@ -128,11 +128,11 @@ const goRegister = () => router.push('/register')
   margin-bottom: 30px;
   font-size: 24px;
   letter-spacing: 0.5px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.92), rgba(165, 180, 252, 0.92));
+  background: linear-gradient(90deg, var(--app-text), var(--el-color-primary));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  text-shadow: none;
 }
 
 .login-form {
@@ -144,7 +144,7 @@ const goRegister = () => router.push('/register')
   display: flex;
   justify-content: center;
   gap: 6px;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--app-text-muted);
   font-size: 14px;
 }
 
@@ -158,7 +158,7 @@ const goRegister = () => router.push('/register')
 }
 
 :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.22);
+  box-shadow: 0 0 0 3px var(--el-color-primary-light-5);
   transform: translateY(-1px);
 }
 

@@ -303,7 +303,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .notice-manage-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -313,15 +313,15 @@ onMounted(() => {
 }
 
 .search-form {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 24px; // 略微增大间距
+  padding-bottom: 15px; // 调整内边距
+  border-bottom: 1px solid var(--app-border); // 使用全局边框变量
 }
 
 .pagination-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 24px; // 略微增大间距
 }
 
 .el-select {

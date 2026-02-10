@@ -116,10 +116,17 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.admin-grade-exception-monitor h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--app-text);
+  letter-spacing: 0.5px;
+  margin-bottom: 20px; 
+}
 .admin-grade-exception-monitor {
-  padding: 20px;
+  padding: 24px;
 }
 .query-form {
-  margin-bottom: 20px;
+  margin-bottom: 24px; 
 }
 </style>

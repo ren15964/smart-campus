@@ -28,8 +28,8 @@ defineProps({
 
 .app-sk__line {
   height: 12px;
-  border-radius: 8px;
-  background: rgba(2, 6, 23, 0.06);
+  border-radius: 10px; // 增大圆角
+  background: rgba(0, 0, 0, 0.08); // 使用更柔和的背景色
 }
 </style>
 

@@ -2,7 +2,7 @@
   <div class="schedule-container">
     <el-card class="box-card">
       <template #header>
-        <div class="card-header">
+        <div class="card-header" style="font-size: 20px; font-weight: 700; color: var(--app-text);">
           <span>我的课表</span>
         </div>
       </template>
@@ -147,8 +147,8 @@ const getCourseItemStyle = (course, time) => {
     return {
       top: '0px',
       height: `${(durationMinutes + offsetMinutes) / 60 * slotHeight}px`,
-      backgroundColor: '#409EFF',
-      color: 'white',
+      backgroundColor: 'var(--el-color-primary)',
+      color: '#fff',
       zIndex: 1,
     }
   }
@@ -156,8 +156,8 @@ const getCourseItemStyle = (course, time) => {
   return {
     top: `${offsetMinutes / 60 * slotHeight}px`,
     height: `${durationMinutes / 60 * slotHeight}px`,
-    backgroundColor: '#409EFF',
-    color: 'white',
+    backgroundColor: 'var(--el-color-primary)',
+    color: '#fff',
     zIndex: 1,
   }
 }
@@ -169,7 +169,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .schedule-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -179,21 +179,24 @@ onMounted(() => {
 }
 
 .search-form {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--app-border);
 }
 
 .schedule-content {
   display: flex;
-  border: 1px solid #EBEEF5;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  overflow: hidden;
   min-height: 600px;
   position: relative;
 }
 
 .time-axis {
   width: 80px;
-  border-right: 1px solid #EBEEF5;
+  border-right: 1px solid var(--app-border);
   flex-shrink: 0;
 
   .time-cell {
@@ -201,11 +204,12 @@ onMounted(() => {
     line-height: 60px;
     text-align: center;
     font-size: 14px;
-    color: #606266;
-    border-bottom: 1px solid #EBEEF5;
+    color: var(--app-text-muted);
+    border-bottom: 1px solid var(--app-border);
 
     &.header {
-      background-color: #F5F7FA;
+      background-color: var(--app-bg-soft);
+      color: var(--app-text);
       font-weight: bold;
     }
   }
@@ -217,7 +221,7 @@ onMounted(() => {
 
   .week-day {
     flex: 1;
-    border-right: 1px solid #EBEEF5;
+    border-right: 1px solid var(--app-border);
     position: relative;
 
     &:last-child {
@@ -228,14 +232,15 @@ onMounted(() => {
       height: 60px; /* 与时间轴头部高度一致 */
       line-height: 60px;
       text-align: center;
-      background-color: #F5F7FA;
+      background-color: var(--app-bg-soft);
+      color: var(--app-text);
       font-weight: bold;
-      border-bottom: 1px solid #EBEEF5;
+      border-bottom: 1px solid var(--app-border);
     }
 
     .course-slot {
       height: 60px; /* 每个时间格的高度 */
-      border-bottom: 1px dashed #E4E7ED;
+      border-bottom: 1px dashed var(--app-border);
       position: relative;
 
       .course-item {
@@ -243,7 +248,7 @@ onMounted(() => {
         left: 2px;
         right: 2px;
         padding: 5px;
-        border-radius: 4px;
+        border-radius: 8px;
         font-size: 12px;
         line-height: 1.2;
         overflow: hidden;

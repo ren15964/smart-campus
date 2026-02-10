@@ -1,0 +1,1 @@
+import{F as e}from"./index-CWfbs8s0.js";function u(t){return e({url:"/grade/my-grades",method:"get",params:t})}function a(){return e({url:"/grade/statistics",method:"get"})}function s(t){return e({url:`/grade/course/${t}`,method:"get"})}function n(t){return e({url:"/grade/input",method:"post",data:t})}export{s as a,u as b,a as g,n as i};

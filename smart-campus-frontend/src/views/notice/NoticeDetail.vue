@@ -112,7 +112,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .notice-detail-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -122,35 +122,36 @@ onMounted(() => {
 }
 
 .detail-content {
-  padding: 0 20px;
+  padding: 10px 30px 20px; // 调整内边距，左右略大，底部适中
 }
 
 .notice-title {
-  font-size: 26px;
+  font-size: 28px; // 略微增大字体
+  font-weight: 800; // 加粗
   text-align: center;
-  margin-bottom: 20px;
-  color: #303133;
+  margin-bottom: 25px; // 调整间距
+  color: var(--app-text); // 使用全局文本颜色
 }
 
 .notice-meta {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  font-size: 14px;
-  color: #909399;
-  margin-bottom: 20px;
+  gap: 25px; // 略微增大间距
+  font-size: 13px; // 略微缩小字体
+  color: var(--app-text-muted); // 使用全局柔和文本颜色
+  margin-bottom: 25px; // 调整间距
 
   span {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px; // 增大图标与文本间距
   }
 }
 
 .notice-body {
   line-height: 1.8;
-  font-size: 16px;
-  color: #606266;
+  font-size: 15px; // 略微缩小字体
+  color: var(--app-text); // 使用全局文本颜色
   min-height: 200px;
   word-wrap: break-word;
   white-space: pre-wrap;

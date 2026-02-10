@@ -20,7 +20,7 @@ import java.util.List;
  * 开课计划控制器
  */
 @RestController
-@RequestMapping("/course-schedule")
+@RequestMapping("/schedule")
 public class CourseScheduleController {
 
     @Autowired

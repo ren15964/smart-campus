@@ -9,9 +9,10 @@
 
       <el-form :model="userInfoForm" :rules="rules" ref="userInfoFormRef" label-width="100px" class="profile-form">
         <el-form-item label="头像">
+          <!-- 通用文件上传接口：/api/file/upload（需后端实现） -->
           <el-upload
             class="avatar-uploader"
-            action="/api/file/upload" // 通用文件上传接口，需要后端实现
+            action="/api/file/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -149,7 +150,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .user-profile-container {
-  padding: 20px;
+  padding: 24px; // 统一内边距
 }
 
 .card-header {
@@ -159,13 +160,14 @@ onMounted(() => {
 }
 
 .profile-form {
-  width: 500px;
-  margin: 20px auto;
+  max-width: 600px; // 使用最大宽度
+  width: 100%; // 确保宽度自适应
+  margin: 20px auto; // 居中
 }
 
 .avatar-uploader {
   :deep(.el-upload) {
-    border: 1px dashed var(--el-border-color-dark);
+    border: 1px dashed var(--app-border); // 使用全局边框变量
     border-radius: 50%;
     cursor: pointer;
     position: relative;
@@ -174,11 +176,11 @@ onMounted(() => {
   }
 
   :deep(.el-upload:hover) {
-    border-color: var(--el-color-primary);
+    border-color: var(--primary-light-color); // 使用 Element Plus 主色作为悬停颜色
   }
 }
 
 .el-avatar {
-  --el-avatar-bg-color: #dcdfe6;
+  --el-avatar-bg-color: var(--app-bg-soft); // 使用浅色主题的柔和背景色
 }
 </style>

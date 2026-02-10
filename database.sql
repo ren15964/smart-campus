@@ -295,8 +295,6 @@ CREATE TABLE `homework_grade` (
   `comment` TEXT COMMENT '评语',
   `grader_id` BIGINT NOT NULL COMMENT '批改教师ID',
   `grade_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '批改时间',
-  `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_submit_id` (`submit_id`),
   KEY `idx_grader_id` (`grader_id`)
@@ -329,6 +327,121 @@ VALUES ('T001', '$2a$10$QTdplXeJBuvJT265EXQdQekYDKCA3cEjCifgDRGSO/fW2g.tYvQOK', 
 
 INSERT INTO `teacher` (`user_id`, `teacher_no`, `title`, `department`, `office`)
 VALUES (3, 'T001', '副教授', '计算机学院', 'A301');
+
+-- 插入更多测试用户
+-- 学生用户
+INSERT INTO `user` (`username`, `password`, `real_name`, `role`, `status`)
+VALUES
+('2024002', '$2a$10$QTdplXeJBuvJT265EXQdQekYDKCA3cEjCifgDRGSO/fW2g.tYvQOK', '李四', 'student', 1),
+('2024003', '$2a$10$QTdplXeJBuvJT265EXQdQekYDKCA3cEjCifgDRGSO/fW2g.tYvQOK', '王五', 'student', 1),
+('2024004', '$2a$10$QTdplXeJBuvJT265EXQdQekYDKCA3cEjCifgDRGSO/fW2g.tYvQOK', '赵六', 'student', 1);
+
+-- 教师用户
+INSERT INTO `user` (`username`, `password`, `real_name`, `role`, `status`)
+VALUES
+('T002', '$2a$10$QTdplXeJBuvJT265EXQdQekYDKCA3cEjCifgDRGSO/fW2g.tYvQOK', '王老师', 'teacher', 1),
+('T003', '$2a$10$QTdplXeJBuvJT265EXQdQekYDKCA3cEjCifgDRGSO/fW2g.tYvQOK', '张老师', 'teacher', 1);
+
+-- 更多管理员用户
+INSERT INTO `user` (`username`, `password`, `real_name`, `role`, `status`)
+VALUES
+('admin2', '$2a$10$QTdplXeJBuvJT265EXQdQekYDKCA3cEjCifgDRGSO/fW2g.tYvQOK', '管理员二', 'admin', 1);
+
+-- 插入更多测试学生信息
+INSERT INTO `student` (`user_id`, `student_no`, `class_name`, `major`, `grade`, `enrollment_date`)
+VALUES
+(4, '2024002', '计算机1班', '计算机科学与技术', '2024', '2024-09-01'),
+(5, '2024003', '软件2班', '软件工程', '2024', '2024-09-01'),
+(6, '2024004', '网络3班', '网络工程', '2024', '2024-09-01');
+
+-- 插入更多测试教师信息
+INSERT INTO `teacher` (`user_id`, `teacher_no`, `title`, `department`, `office`)
+VALUES
+(7, 'T002', '讲师', '软件学院', 'B203'),
+(8, 'T003', '教授', '网络安全学院', 'C101');
+
+-- 插入课程数据
+INSERT INTO `course` (`course_code`, `course_name`, `credit`, `hours`, `course_type`, `description`)
+VALUES
+('CS101', '数据结构与算法', 3.0, 48, '必修', '介绍基本数据结构和常用算法。'),
+('CS102', '操作系统原理', 3.0, 48, '必修', '探讨操作系统的核心概念和原理。'),
+('SE201', '软件工程导论', 2.0, 32, '必修', '软件开发过程和方法的概览。'),
+('NW301', '计算机网络', 3.0, 48, '选修', '学习计算机网络的基本原理和协议。'),
+('MA101', '高等数学A', 4.0, 64, '必修', '微积分和线性代数基础。');
+
+-- 插入开课计划数据
+-- 假设课程ID从1开始，教师ID从3开始 (李老师), 7 (王老师), 8 (张老师)
+INSERT INTO `course_schedule` (`course_id`, `teacher_id`, `semester`, `week_day`, `start_week`, `end_week`, `start_time`, `end_time`, `classroom`, `capacity`, `selected_count`, `status`)
+VALUES
+(1, 3, '2024-2025-1', 1, 1, 16, '08:00', '09:40', '教1-101', 60, 0, 1), -- 数据结构与算法 by 李老师
+(2, 7, '2024-2025-1', 2, 1, 16, '10:00', '11:40', '教1-203', 50, 0, 1), -- 操作系统原理 by 王老师
+(3, 8, '2024-2025-1', 3, 1, 16, '14:00', '15:40', '教2-301', 45, 0, 1), -- 软件工程导论 by 张老师
+(4, 3, '2024-2025-1', 4, 1, 16, '16:00', '17:40', '教1-402', 55, 0, 1), -- 计算机网络 by 李老师
+(5, 7, '2024-2025-1', 5, 1, 16, '08:00', '09:40', '教3-105', 70, 0, 1); -- 高等数学A by 王老师
+
+-- 插入选课数据
+-- 假设学生ID从2开始 (张三), 4 (李四), 5 (王五), 6 (赵六)
+-- 假设开课计划ID从1开始
+INSERT INTO `course_selection` (`student_id`, `schedule_id`, `status`)
+VALUES
+(2, 1, 1), -- 张三选数据结构
+(4, 1, 1), -- 李四选数据结构
+(5, 2, 1), -- 王五选操作系统
+(6, 3, 1), -- 赵六选软件工程
+(2, 4, 1), -- 张三选计算机网络
+(4, 5, 1); -- 李四选高等数学
+
+-- 插入成绩数据
+INSERT INTO `grade` (`student_id`, `schedule_id`, `usual_score`, `exam_score`, `total_score`, `gpa`, `remark`)
+VALUES
+(2, 1, 85.00, 90.00, 88.00, 3.8, '表现优秀'),
+(4, 1, 70.00, 75.00, 72.00, 2.5, '中等偏上'),
+(5, 2, 90.00, 88.00, 89.00, 3.9, '非常棒！'),
+(6, 3, 60.00, 65.00, 62.00, 1.5, '需要努力'),
+(2, 4, 78.00, 82.00, 80.00, 3.0, '良好');
+
+-- 插入通知公告数据
+INSERT INTO `notice` (`title`, `content`, `publisher_id`, `publisher_name`, `priority`, `target_role`, `publish_time`, `status`, `read_count`)
+VALUES
+('关于2024-2025学年第一学期期末考试安排的通知', '请各位同学及时关注考试时间地点。', 1, '系统管理员', 3, 'all', '2026-01-15 09:00:00', 1, 120),
+('图书馆闭馆通知', '图书馆将于2026年2月10日至2月17日进行维护。', 1, '系统管理员', 2, 'all', '2026-02-08 15:30:00', 1, 80),
+('面向教师的教学评估系统培训通知', '请所有教师参加。', 3, '李老师', 1, 'teacher', '2026-02-05 10:00:00', 1, 30);
+
+-- 插入新闻数据
+INSERT INTO `news` (`title`, `cover_image`, `content`, `category`, `publisher_id`, `publisher_name`, `view_count`, `publish_time`, `status`)
+VALUES
+('我校在全国大学生创新创业大赛中喜获佳绩', 'http://example.com/news1_cover.jpg', '我校代表队在本次大赛中表现突出，获得一等奖一项，二等奖两项。', '校园新闻', 1, '系统管理员', 200, '2026-01-20 10:00:00', 1),
+('计算机学院成功举办“AI前沿技术”专题讲座', 'http://example.com/news2_cover.jpg', '本次讲座邀请了知名专家，吸引了大量师生参与。', '学术动态', 1, '系统管理员', 150, '2026-02-01 14:00:00', 1);
+
+-- 插入课程资源数据
+-- 假设开课计划ID从1开始
+INSERT INTO `course_resource` (`schedule_id`, `resource_name`, `resource_type`, `file_path`, `file_size`, `chapter`, `description`, `uploader_id`)
+VALUES
+(1, '数据结构第一章PPT', 'ppt', '/resources/cs101_chapter1.ppt', 102400, '第一章 绪论', '数据结构课程第一章的课件。', 3),
+(1, '数据结构与算法习题集', 'doc', '/resources/cs101_exercises.pdf', 512000, '全部章节', '数据结构课程配套习题。', 3),
+(2, '操作系统原理视频教程', 'video', '/resources/os_video.mp4', 102400000, '第一章 操作系统概述', '操作系统原理入门视频。', 7);
+
+-- 插入作业数据
+-- 假设开课计划ID从1开始，教师ID从3开始
+INSERT INTO `homework` (`schedule_id`, `title`, `content`, `deadline`, `total_score`, `teacher_id`)
+VALUES
+(1, '数据结构第一次作业：链表实现', '请使用C++或Java实现单链表的基本操作。', '2026-03-01 23:59:59', 100.00, 3),
+(2, '操作系统原理实验一：进程管理', '完成进程创建与销毁的实验报告。', '2026-03-15 23:59:59', 100.00, 7);
+
+-- 插入作业提交数据
+-- 假设作业ID从1开始，学生ID从2开始
+INSERT INTO `homework_submit` (`homework_id`, `student_id`, `content`, `submit_time`, `status`, `is_late`)
+VALUES
+(1, 2, '已完成链表实现，代码见附件。', '2026-02-28 18:00:00', 1, 0),
+(1, 4, '代码已上传，希望没有bug。', '2026-03-02 10:00:00', 1, 1), -- 迟交
+(2, 5, '实验报告已提交。', '2026-03-10 16:00:00', 1, 0);
+
+-- 插入作业成绩数据
+-- 假设提交ID从1开始，教师ID从3开始
+INSERT INTO `homework_grade` (`submit_id`, `score`, `comment`, `grader_id`, `grade_time`)
+VALUES
+(1, 95.00, '代码规范，功能完善。', 3, '2026-03-05 10:00:00'),
+(3, 88.00, '报告内容详实，思考深入。', 7, '2026-03-12 14:00:00');
 
 -- =============================================
 -- 使用说明

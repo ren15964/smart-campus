@@ -17,7 +17,12 @@ defineProps({
 
 <style scoped lang="scss">
 .app-empty {
-  padding: 10px 0;
+  padding: 20px 0; // 增大内边距
 }
+
+:deep(.el-empty__description p) {
+  color: var(--app-text-muted); // 使用浅色主题的柔和文本颜色
+}
+
 </style>
 

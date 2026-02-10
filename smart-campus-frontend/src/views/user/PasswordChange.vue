@@ -2,7 +2,7 @@
   <div class="password-change-container">
     <el-card class="box-card">
       <template #header>
-        <div class="card-header">
+        <div class="card-header" style="font-size: 20px; font-weight: 700; color: var(--app-text);">
           <span>修改密码</span>
           <el-button type="primary" link @click="handleBack">返回</el-button>
         </div>
@@ -114,7 +114,7 @@ const handleBack = () => {
 
 <style scoped lang="scss">
 .password-change-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -124,7 +124,7 @@ const handleBack = () => {
 }
 
 .password-form {
-  width: 500px;
+  width: min(500px, 100%);
   margin: 20px auto;
 }
 </style>

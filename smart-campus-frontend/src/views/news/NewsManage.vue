@@ -305,10 +305,10 @@ onMounted(() => {
 
 <style scoped>
 .news-manage {
-  padding: 20px;
+  padding: 24px;
 }
 .box-card {
-  margin-bottom: 20px;
+  margin-bottom: 24px; 
 }
 .card-header {
   display: flex;

@@ -162,7 +162,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .grade-query-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -172,13 +172,13 @@ onMounted(() => {
 }
 
 .search-form {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 24px; // 略微增大间距
+  padding-bottom: 15px; // 调整内边距
+  border-bottom: 1px solid var(--app-border); // 使用全局边框变量
 }
 
 .statistics-card {
-  margin-top: 20px;
+  margin-top: 24px; // 略微增大间距
 }
 
 .statistics-content {
@@ -190,22 +190,23 @@ onMounted(() => {
 .stat-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 10px 15px;
-  background-color: #f5f7fa;
-  border-radius: 5px;
-  min-width: 150px;
+  align-items: flex-start; // 左对齐
+  padding: 15px 20px; // 调整内边距
+  background-color: var(--app-bg-soft); // 使用浅色柔和背景色
+  border-radius: var(--app-radius); // 使用全局圆角变量
+  min-width: 160px; // 调整最小宽度
+  box-shadow: var(--app-shadow);
 
   span:first-child {
-    color: #909399;
+    color: var(--app-text-muted); // 使用全局柔和文本颜色
     font-size: 14px;
-    margin-bottom: 5px;
+    margin-bottom: 8px; // 调整间距
   }
 
   .stat-value {
-    font-size: 20px;
-    font-weight: bold;
-    color: #303133;
+    font-size: 24px; // 调整字体大小
+    font-weight: 700; // 调整字重
+    color: var(--app-text); // 使用全局文本颜色
   }
 }
 </style>

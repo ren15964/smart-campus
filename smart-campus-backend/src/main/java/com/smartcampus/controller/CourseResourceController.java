@@ -1,6 +1,7 @@
 package com.smartcampus.controller;
 
 import com.smartcampus.common.Result;
+import com.smartcampus.exception.BusinessException;
 import com.smartcampus.dto.CourseResourceUploadDTO;
 import com.smartcampus.service.CourseResourceService;
 import com.smartcampus.utils.JwtUtil;
@@ -31,10 +32,35 @@ public class CourseResourceController {
      * 资源列表
      */
     @GetMapping("/list")
-    public Result<List<CourseResourceVO>> getCourseResources(@RequestParam Long scheduleId,
-                                                             @RequestParam(required = false) String chapter) {
-        List<CourseResourceVO> list = courseResourceService.getCourseResources(scheduleId, chapter);
-        return Result.success(list);
+    public Result<List<CourseResourceVO>> getCourseResources(@RequestParam(required = false) Long scheduleId,
+                                                             @RequestParam(required = false) String chapter,
+                                                             @RequestParam(required = false) String keyword,
+                                                             HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
+        // scheduleId传了：按课程查（学生/教师/管理员都可）
+        if (scheduleId != null) {
+            List<CourseResourceVO> list = courseResourceService.getCourseResources(scheduleId, chapter, keyword);
+            return Result.success(list);
+        }
+
+        // scheduleId没传：用于“资源管理”场景（教师看自己上传的；管理员看全量）
+        if (token == null || token.isEmpty()) {
+            throw new BusinessException("缺少scheduleId参数，且未登录，无法获取资源列表");
+        }
+        Long userId = jwtUtil.getUserIdFromToken(token);
+        String role = jwtUtil.getUserRoleFromToken(token);
+        if ("teacher".equals(role)) {
+            return Result.success(courseResourceService.getMyUploadedResources(userId, chapter, keyword));
+        }
+        if ("admin".equals(role)) {
+            return Result.success(courseResourceService.getAllResources(chapter, keyword));
+        }
+        // student：没有scheduleId就没法判断看哪门课的资源
+        throw new BusinessException("缺少scheduleId参数，无法获取课程资源列表");
     }
 
     /**

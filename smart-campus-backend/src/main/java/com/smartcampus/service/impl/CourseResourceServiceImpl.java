@@ -47,17 +47,53 @@ public class CourseResourceServiceImpl extends ServiceImpl<CourseResourceMapper,
     private UserService userService;
 
     @Override
-    public List<CourseResourceVO> getCourseResources(Long scheduleId, String chapter) {
+    public List<CourseResourceVO> getCourseResources(Long scheduleId, String chapter, String keyword) {
         LambdaQueryWrapper<CourseResource> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(CourseResource::getScheduleId, scheduleId);
         if (chapter != null && !chapter.isEmpty()) {
             wrapper.eq(CourseResource::getChapter, chapter);
+        }
+        if (keyword != null && !keyword.isEmpty()) {
+            wrapper.like(CourseResource::getResourceName, keyword);
         }
         wrapper.eq(CourseResource::getIsDeleted, 0);
         wrapper.orderByAsc(CourseResource::getChapter).orderByDesc(CourseResource::getCreateTime);
 
         List<CourseResource> resources = courseResourceMapper.selectList(wrapper);
 
+        return toVOList(resources);
+    }
+
+    @Override
+    public List<CourseResourceVO> getMyUploadedResources(Long uploaderId, String chapter, String keyword) {
+        LambdaQueryWrapper<CourseResource> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CourseResource::getUploaderId, uploaderId);
+        if (chapter != null && !chapter.isEmpty()) {
+            wrapper.eq(CourseResource::getChapter, chapter);
+        }
+        if (keyword != null && !keyword.isEmpty()) {
+            wrapper.like(CourseResource::getResourceName, keyword);
+        }
+        wrapper.eq(CourseResource::getIsDeleted, 0);
+        wrapper.orderByAsc(CourseResource::getChapter).orderByDesc(CourseResource::getCreateTime);
+        return toVOList(courseResourceMapper.selectList(wrapper));
+    }
+
+    @Override
+    public List<CourseResourceVO> getAllResources(String chapter, String keyword) {
+        LambdaQueryWrapper<CourseResource> wrapper = new LambdaQueryWrapper<>();
+        if (chapter != null && !chapter.isEmpty()) {
+            wrapper.eq(CourseResource::getChapter, chapter);
+        }
+        if (keyword != null && !keyword.isEmpty()) {
+            wrapper.like(CourseResource::getResourceName, keyword);
+        }
+        wrapper.eq(CourseResource::getIsDeleted, 0);
+        wrapper.orderByAsc(CourseResource::getChapter).orderByDesc(CourseResource::getCreateTime);
+        return toVOList(courseResourceMapper.selectList(wrapper));
+    }
+
+    private List<CourseResourceVO> toVOList(List<CourseResource> resources) {
         return resources.stream()
                 .map(resource -> {
                     CourseResourceVO vo = new CourseResourceVO();

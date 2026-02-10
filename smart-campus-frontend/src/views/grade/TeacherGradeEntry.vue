@@ -2,7 +2,7 @@
   <div class="teacher-grade-entry">
     <h2>教师成绩录入</h2>
     <el-card>
-      <el-form :model="gradeForm" label-width="120px">
+      <el-form :model="gradeForm" label-width="120px" style="max-width: 600px; margin: 20px auto;">
         <el-form-item label="选择课程">
           <el-select v-model="gradeForm.courseId" placeholder="请选择课程" @change="handleCourseChange">
             <el-option
@@ -119,7 +119,14 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.teacher-grade-entry h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--app-text);
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
 .teacher-grade-entry {
-  padding: 20px;
+  padding: 24px;
 }
 </style>

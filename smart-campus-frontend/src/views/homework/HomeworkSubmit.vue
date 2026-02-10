@@ -268,7 +268,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .homework-submit-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -278,35 +278,36 @@ onMounted(() => {
 }
 
 .detail-content {
-  padding: 0 20px;
+  padding: 10px 30px 20px; // 调整内边距，左右略大，底部适中
 }
 
 .homework-title {
-  font-size: 26px;
+  font-size: 28px; // 略微增大字体
+  font-weight: 800; // 加粗
   text-align: center;
-  margin-bottom: 20px;
-  color: #303133;
+  margin-bottom: 25px; // 调整间距
+  color: var(--app-text); // 使用全局文本颜色
 }
 
 .homework-meta {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  font-size: 14px;
-  color: #909399;
-  margin-bottom: 20px;
+  gap: 25px; // 略微增大间距
+  font-size: 13px; // 略微缩小字体
+  color: var(--app-text-muted); // 使用全局柔和文本颜色
+  margin-bottom: 25px; // 调整间距
 
   span {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px; // 增大图标与文本间距
   }
 }
 
 .homework-body {
   line-height: 1.8;
-  font-size: 16px;
-  color: #606266;
+  font-size: 15px; // 略微缩小字体
+  color: var(--app-text); // 使用全局文本颜色
   min-height: 100px;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -322,26 +323,27 @@ onMounted(() => {
 .submission-form {
   margin-top: 30px;
   padding: 20px;
-  border: 1px dashed #DCDFE6;
-  border-radius: 8px;
-  background-color: #FAFAFA;
+  border: 1px solid var(--app-border); // 使用全局边框变量
+  border-radius: var(--app-radius); // 使用全局圆角变量
+  background-color: var(--app-bg-soft); // 使用浅色柔和背景色
 }
 
 .submission-content {
   margin-top: 10px;
-  padding: 10px;
-  border: 1px solid #EBEEF5;
-  border-radius: 4px;
-  background-color: #FFF;
+  padding: 15px;
+  border: 1px solid var(--app-border); // 使用全局边框变量
+  border-radius: var(--app-radius); // 使用全局圆角变量
+  background-color: var(--app-surface-solid); // 使用实心背景色
+  color: var(--app-text); // 使用全局文本颜色
   min-height: 80px;
   line-height: 1.6;
   white-space: pre-wrap;
 }
 
 .grade-info {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px dashed #DCDFE6;
+  margin-top: 25px; // 略微增大间距
+  padding-top: 20px; // 调整内边距
+  border-top: 1px solid var(--app-border); // 使用全局边框变量
 }
 
 .el-upload__tip {

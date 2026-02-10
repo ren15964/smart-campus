@@ -155,10 +155,10 @@ const goLogin = () => router.push('/login')
 .register-box {
   width: 460px;
   padding: 32px 40px;
-  background: rgba(255, 255, 255, 0.82);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  background: var(--app-surface); // 使用全局表面色
+  border-radius: var(--app-radius); // 使用全局圆角
+  border: 1px solid var(--app-border); // 使用全局边框
+  box-shadow: var(--app-shadow); // 使用全局阴影
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   position: relative;
@@ -169,27 +169,27 @@ const goLogin = () => router.push('/login')
 
 .register-box:hover {
   transform: translateY(-2px);
-  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.42);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.12); // 调整悬停阴影
 }
 
 .register-title {
   text-align: center;
-  margin-bottom: 18px;
-  font-size: 22px;
+  margin-bottom: 24px; // 调整间距
+  font-size: 28px; // 略微增大字体
   letter-spacing: 0.5px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.92), rgba(165, 180, 252, 0.92));
+  background: linear-gradient(90deg, var(--el-color-primary), var(--el-color-primary-light-3)); // 使用 Element Plus 主色渐变
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); // 调整阴影
 }
 
 .register-actions {
-  margin-top: 6px;
+  margin-top: 10px; // 略微增大间距
   display: flex;
   justify-content: center;
-  gap: 6px;
-  color: rgba(255, 255, 255, 0.82);
+  gap: 8px; // 略微增大间距
+  color: var(--app-text-muted); // 使用全局柔和文本颜色
   font-size: 14px;
 }
 
@@ -205,7 +205,7 @@ const goLogin = () => router.push('/login')
 
 :deep(.el-input__wrapper.is-focus),
 :deep(.el-select__wrapper.is-focus) {
-  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.22);
+  box-shadow: 0 0 0 3px var(--el-color-primary-light-7); // 使用 Element Plus 浅色主色作为焦点阴影
   transform: translateY(-1px);
 }
 

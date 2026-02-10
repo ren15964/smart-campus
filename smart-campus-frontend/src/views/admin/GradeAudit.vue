@@ -136,7 +136,14 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.admin-grade-audit h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--app-text);
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
 .admin-grade-audit {
-  padding: 20px;
+  padding: 24px;
 }
 </style>

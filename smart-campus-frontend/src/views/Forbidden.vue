@@ -68,9 +68,17 @@ function reLogin() {
 .from-tip {
   margin-top: 10px;
   font-size: 12px;
-  color: rgba(15, 23, 42, 0.55);
+  color: var(--app-text-muted); // 使用全局柔和文本颜色
   text-align: center;
   word-break: break-all;
+}
+
+:deep(.el-result__title p) {
+  color: var(--app-text);
+}
+
+:deep(.el-result__subtitle p) {
+  color: var(--app-text-muted);
 }
 </style>
 

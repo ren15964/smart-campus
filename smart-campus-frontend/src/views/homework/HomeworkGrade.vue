@@ -237,7 +237,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .homework-grade-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -247,15 +247,16 @@ onMounted(() => {
 }
 
 .submission-detail-content {
-  padding: 0 20px;
+  padding: 10px 30px 20px; // 调整内边距，左右略大，底部适中
 }
 
 .submission-content {
   margin-top: 10px;
-  padding: 10px;
-  border: 1px solid #EBEEF5;
-  border-radius: 4px;
-  background-color: #FFF;
+  padding: 15px;
+  border: 1px solid var(--app-border); // 使用全局边框变量
+  border-radius: var(--app-radius); // 使用全局圆角变量
+  background-color: var(--app-bg-soft); // 使用浅色柔和背景色
+  color: var(--app-text); // 使用全局文本颜色
   min-height: 80px;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -268,11 +269,11 @@ onMounted(() => {
 
 .graded-info {
   margin-top: 20px;
-  padding: 10px;
-  border: 1px solid #e1f3d8; /* 浅绿色边框 */
-  background-color: #f0f9eb; /* 浅绿色背景 */
-  color: #67c23a; /* 绿色文本 */
-  border-radius: 4px;
+  padding: 15px;
+  border: 1px solid var(--el-color-success-light-3); // 浅绿色边框
+  background-color: var(--el-color-success-light-9); // 浅绿色背景
+  color: var(--el-color-success); // 绿色文本
+  border-radius: var(--app-radius); // 使用全局圆角变量
 }
 
 .graded-info p {

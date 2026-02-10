@@ -13,10 +13,10 @@ const options = {
   detectRetina: true,
   particles: {
     number: { value: 70, density: { enable: true, area: 900 } },
-    color: { value: ['#ffffff', '#a5b4fc', '#22d3ee'] },
-    links: { enable: true, color: '#ffffff', distance: 140, opacity: 0.16, width: 1 },
+    color: { value: ['#e0e2e5', '#f0f2f5', '#409eff'] }, // 调整为浅色主题颜色
+    links: { enable: true, color: '#e0e2e5', distance: 140, opacity: 0.3, width: 1 }, // 调整为浅色链接线
     move: { enable: true, speed: 1.2, direction: 'none', outModes: { default: 'out' } },
-    opacity: { value: 0.35 },
+    opacity: { value: 0.5 }, // 略微增加不透明度
     size: { value: { min: 1, max: 3 } }
   },
   interactivity: {
@@ -46,11 +46,11 @@ const options = {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(1000px 600px at 10% 10%, rgba(34, 211, 238, 0.28), transparent 55%),
-    radial-gradient(900px 560px at 90% 20%, rgba(165, 180, 252, 0.26), transparent 52%),
-    radial-gradient(900px 700px at 40% 100%, rgba(236, 72, 153, 0.18), transparent 58%),
-    linear-gradient(135deg, #0b1020 0%, #111a3a 45%, #0b1020 100%);
-  filter: saturate(1.12) contrast(1.02);
+    radial-gradient(1000px 600px at 10% 10%, rgba(64, 158, 255, 0.1), transparent 55%), // Element Plus primary blue
+    radial-gradient(900px 560px at 90% 20%, rgba(144, 147, 153, 0.1), transparent 52%), // Element Plus info grey
+    radial-gradient(900px 700px at 40% 100%, rgba(245, 108, 108, 0.08), transparent 58%), // Element Plus danger red
+    linear-gradient(135deg, var(--app-bg) 0%, var(--app-bg-soft) 45%, var(--app-bg) 100%); // 浅色主题背景
+  filter: saturate(1.05) contrast(1.02);
 }
 </style>
 

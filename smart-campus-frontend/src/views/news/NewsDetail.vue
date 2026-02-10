@@ -63,7 +63,7 @@ onMounted(() => {
 
 <style scoped>
 .news-detail-container {
-  padding: 20px;
+  padding: 24px;
 }
 .box-card {
   margin-bottom: 20px;
@@ -71,46 +71,51 @@ onMounted(() => {
 .card-header {
   display: flex;
   align-items: center;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px; 
+  font-weight: 700; 
+  color: var(--app-text); 
 }
 .card-header .el-button {
   margin-right: 10px;
 }
 .news-title {
+  font-size: 28px; 
+  font-weight: 800; 
   text-align: center;
-  margin-bottom: 20px;
-  color: #303133;
+  margin-bottom: 25px; 
+  color: var(--app-text); 
 }
 .news-meta {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  font-size: 14px;
-  color: #909399;
+  gap: 25px; 
+  margin-bottom: 25px; 
+  font-size: 13px; 
+  color: var(--app-text-muted); 
 }
 .category-tag {
-  background-color: #ecf5ff;
-  color: #409eff;
+  background-color: var(--el-color-primary-light-9); 
+  color: var(--el-color-primary); 
   padding: 3px 8px;
   border-radius: 4px;
-  margin-right: 10px;
+  margin-right: 0; 
 }
 .publish-date {
   font-style: italic;
 }
 .news-content {
   line-height: 1.8;
-  color: #606266;
-  font-size: 16px;
+  color: var(--app-text); 
+  font-size: 15px; 
 }
 .news-content h3 {
   margin-top: 15px;
   margin-bottom: 10px;
-  color: #303133;
+  color: var(--app-text); 
 }
 .news-content p {
   margin-bottom: 10px;
+    color: var(--app-text); 
 }
 </style>

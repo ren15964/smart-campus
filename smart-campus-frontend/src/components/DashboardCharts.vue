@@ -118,7 +118,7 @@ const barXAxis = ref([])
 const pieData = ref([])
 
 const baseText = {
-  textStyle: { color: 'rgba(15, 23, 42, 0.72)', fontFamily: 'inherit' }
+  textStyle: { color: 'var(--app-text-muted)', fontFamily: 'inherit' }
 }
 
 const lineOption = computed(() => ({
@@ -129,13 +129,13 @@ const lineOption = computed(() => ({
     type: 'category',
     data: xDays.value,
     boundaryGap: false,
-    axisLine: { lineStyle: { color: 'rgba(2, 6, 23, 0.16)' } },
+    axisLine: { lineStyle: { color: 'var(--app-border)' } },
     axisTick: { show: false }
   },
   yAxis: {
     type: 'value',
-    splitLine: { lineStyle: { color: 'rgba(2, 6, 23, 0.06)' } },
-    axisLabel: { color: 'rgba(15, 23, 42, 0.6)' }
+    splitLine: { lineStyle: { color: 'rgba(0, 0, 0, 0.06)' } },
+    axisLabel: { color: 'var(--app-text-muted)' }
   },
   series: lineSeries.value
 }))
@@ -143,18 +143,18 @@ const lineOption = computed(() => ({
 const barOption = computed(() => ({
   ...baseText,
   tooltip: { trigger: 'axis' },
-  legend: barSeries.value.length > 1 ? { top: 0, right: 0, itemWidth: 10 } : undefined,
+  legend: barSeries.value.length > 1 ? { top: 0, right: 0, itemWidth: 10, textStyle: { color: 'var(--app-text-muted)' } } : undefined,
   grid: { left: 10, right: 18, top: 34, bottom: 10, containLabel: true },
   xAxis: {
     type: 'category',
     data: barXAxis.value,
-    axisLine: { lineStyle: { color: 'rgba(2, 6, 23, 0.16)' } },
+    axisLine: { lineStyle: { color: 'var(--app-border)' } },
     axisTick: { show: false }
   },
   yAxis: {
     type: 'value',
-    splitLine: { lineStyle: { color: 'rgba(2, 6, 23, 0.06)' } },
-    axisLabel: { color: 'rgba(15, 23, 42, 0.6)' }
+    splitLine: { lineStyle: { color: 'rgba(0, 0, 0, 0.06)' } },
+    axisLabel: { color: 'var(--app-text-muted)' }
   },
   series: barSeries.value
 }))
@@ -162,7 +162,7 @@ const barOption = computed(() => ({
 const pieOption = computed(() => ({
   ...baseText,
   tooltip: { trigger: 'item' },
-  legend: { top: 0, left: 0, itemWidth: 10 },
+  legend: { top: 0, left: 0, itemWidth: 10, textStyle: { color: 'var(--app-text-muted)' } },
   series: [
     {
       name: '优先级',
@@ -170,8 +170,8 @@ const pieOption = computed(() => ({
       radius: ['44%', '72%'],
       center: ['50%', '58%'],
       avoidLabelOverlap: true,
-      itemStyle: { borderRadius: 10, borderColor: 'rgba(255,255,255,0.7)', borderWidth: 2 },
-      label: { color: 'rgba(15, 23, 42, 0.78)' },
+      itemStyle: { borderRadius: 10, borderColor: 'var(--app-surface-solid)', borderWidth: 2 },
+      label: { color: 'var(--app-text)' },
       data: pieData.value
     }
   ]
@@ -210,9 +210,9 @@ function buildLast7Series(records, timeField, name) {
     smooth: true,
     symbol: 'circle',
     symbolSize: 7,
-    lineStyle: { width: 3, color: '#22d3ee' },
-    itemStyle: { color: '#22d3ee' },
-    areaStyle: { color: 'rgba(34, 211, 238, 0.16)' }
+    lineStyle: { width: 3, color: 'var(--primary-light-color)' }, // 使用主题亮蓝色
+    itemStyle: { color: 'var(--primary-light-color)' }, // 使用主题亮蓝色
+    areaStyle: { color: 'rgba(0, 123, 255, 0.16)' } // 使用主题蓝色透明度
   }
 }
 
@@ -223,9 +223,9 @@ function buildPriorityPie(records) {
     if (p === 1 || p === 2 || p === 3) cnt[p] += 1
   }
   return [
-    { value: cnt[1], name: '普通', itemStyle: { color: '#a5b4fc' } },
-    { value: cnt[2], name: '重要', itemStyle: { color: '#22d3ee' } },
-    { value: cnt[3], name: '紧急', itemStyle: { color: '#fb7185' } },
+    { value: cnt[1], name: '普通', itemStyle: { color: '#909399' } }, // Element Plus info grey
+    { value: cnt[2], name: '重要', itemStyle: { color: '#409eff' } }, // Element Plus primary blue
+    { value: cnt[3], name: '紧急', itemStyle: { color: '#f56c6c' } }, // Element Plus danger red
   ]
 }
 
@@ -282,7 +282,7 @@ async function initDashboard() {
       const y = hot.map(h => safeNumber(h.selectedCount ?? h.count ?? h.total ?? 0))
       barXAxis.value = x
       barSeries.value = [
-        { name: '选课人数', type: 'bar', data: y, barWidth: 14, itemStyle: { borderRadius: 8, color: '#a5b4fc' } }
+        { name: '选课人数', type: 'bar', data: y, barWidth: 14, itemStyle: { borderRadius: 8, color: '#409eff' } } // Element Plus primary blue
       ]
       return
     }
@@ -320,7 +320,7 @@ async function initDashboard() {
       }
       barXAxis.value = Array.from(map.keys())
       barSeries.value = [
-        { name: '截止作业', type: 'bar', data: Array.from(map.values()), barWidth: 14, itemStyle: { borderRadius: 8, color: '#34d399' } }
+        { name: '截止作业', type: 'bar', data: Array.from(map.values()), barWidth: 14, itemStyle: { borderRadius: 8, color: '#67c23a' } } // Element Plus success green
       ]
       return
     }
@@ -346,7 +346,7 @@ async function initDashboard() {
     }
     barXAxis.value = Array.from(wMap.keys())
     barSeries.value = [
-      { name: '课次', type: 'bar', data: Array.from(wMap.values()), barWidth: 14, itemStyle: { borderRadius: 8, color: '#a5b4fc' } }
+      { name: '课次', type: 'bar', data: Array.from(wMap.values()), barWidth: 14, itemStyle: { borderRadius: 8, color: '#409eff' } } // Element Plus primary blue
     ]
   } catch (e) {
     console.error('dashboard init failed:', e)
@@ -385,12 +385,13 @@ onMounted(() => {
 }
 
 .kpi-card {
-  min-height: 96px;
+  min-height: 100px; // 略微增大高度
+  border-radius: 18px; // 略微增大圆角
 }
 
 .kpi-label {
   font-size: 12px;
-  color: rgba(15, 23, 42, 0.6);
+  color: var(--app-text-muted);
 }
 
 .kpi-value {
@@ -403,19 +404,19 @@ onMounted(() => {
 .kpi-value__main {
   font-size: 22px;
   font-weight: 800;
-  color: rgba(15, 23, 42, 0.9);
+  color: var(--app-text);
   letter-spacing: 0.2px;
 }
 
 .kpi-value__unit {
   font-size: 12px;
-  color: rgba(15, 23, 42, 0.6);
+  color: var(--app-text-muted);
 }
 
 .kpi-hint {
   margin-top: 8px;
   font-size: 12px;
-  color: rgba(15, 23, 42, 0.55);
+  color: var(--app-text-muted);
 }
 
 .dash-alert {
@@ -424,7 +425,7 @@ onMounted(() => {
 
 .card-title {
   font-weight: 700;
-  color: rgba(15, 23, 42, 0.84);
+  color: var(--app-text);
 }
 
 .chart {
@@ -442,10 +443,10 @@ onMounted(() => {
 
 .sk {
   width: 100%;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.12);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow);
 }
 
 .sk-card {

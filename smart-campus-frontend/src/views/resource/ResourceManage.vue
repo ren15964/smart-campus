@@ -117,7 +117,7 @@
           >
             <el-button type="primary">点击上传</el-button>
             <template #tip>
-              <div class="el-upload__tip">可上传各类文件，大小不超过50MB</div>
+              <div class="el-upload__tip" style="color: var(--app-text-muted);">可上传各类文件，大小不超过50MB</div>
             </template>
           </el-upload>
         </el-form-item>
@@ -133,12 +133,13 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, nextTick } from 'vue'
+import { ref, reactive, onMounted, nextTick, computed, watch } from 'vue'
 import { getResourceList, uploadResource, updateResource, deleteResource } from '@/api/resource'
 import { getTeacherCourses } from '@/api/course'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import AppEmpty from '@/components/AppEmpty.vue'
 
+const allResources = ref([])
 const resourceList = ref([])
 const loading = ref(false)
 const searchForm = reactive({
@@ -151,6 +152,19 @@ const pagination = reactive({
   size: 10,
   total: 0,
 })
+
+const pagedResources = computed(() => {
+  const start = (pagination.current - 1) * pagination.size
+  const end = start + pagination.size
+  return allResources.value.slice(start, end)
+})
+
+watch(
+  () => [pagination.current, pagination.size, allResources.value.length],
+  () => {
+    resourceList.value = pagedResources.value
+  }
+)
 
 // 弹窗相关
 const dialogVisible = ref(false)
@@ -200,8 +214,9 @@ const fetchResources = async () => {
       // 这里简化为不传scheduleId，让后端返回教师所有课程资源，或者前端筛选
     })
     if (res.code === 200) {
-      resourceList.value = res.data.records
-      pagination.total = res.data.total
+      allResources.value = Array.isArray(res.data) ? res.data : []
+      pagination.total = allResources.value.length
+      resourceList.value = pagedResources.value
     }
   } catch (error) {
     console.error('获取资源列表失败:', error)
@@ -238,12 +253,10 @@ const handleReset = () => {
 
 const handleSizeChange = (val) => {
   pagination.size = val
-  fetchResources()
 }
 
 const handleCurrentChange = (val) => {
   pagination.current = val
-  fetchResources()
 }
 
 const handleAddResource = () => {
@@ -390,7 +403,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .resource-manage-container {
-  padding: 20px;
+  padding: 24px;
 }
 
 .card-header {
@@ -400,15 +413,15 @@ onMounted(() => {
 }
 
 .search-form {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 24px; // 略微增大间距
+  padding-bottom: 15px; // 调整内边距
+  border-bottom: 1px solid var(--app-border); // 使用全局边框变量
 }
 
 .pagination-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 24px; // 略微增大间距
 }
 
 .el-select,

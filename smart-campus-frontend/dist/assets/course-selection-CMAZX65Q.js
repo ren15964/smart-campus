@@ -1,0 +1,1 @@
+import{F as e}from"./index-CWfbs8s0.js";function r(t){return e({url:"/course-selection/my-courses",method:"get",params:t})}function s(){return e({url:"/course-selection/period",method:"get"})}function i(t){return e({url:"/course-selection/period",method:"post",data:t})}function n(){return e({url:"/course-selection/statistics",method:"get"})}export{r as a,s as b,n as g,i as s};

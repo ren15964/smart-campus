@@ -136,16 +136,38 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.admin-grade-statistics {
-  padding: 20px;
-}
-.query-form {
+.admin-grade-statistics h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--app-text);
+  letter-spacing: 0.5px;
   margin-bottom: 20px;
 }
-.statistics-display {
-  margin-top: 20px;
+
+.admin-grade-statistics h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--app-text);
+  margin-bottom: 15px; 
 }
-.el-statistic {
+.admin-grade-statistics {
+  padding: 24px;
+}
+.query-form {
+  margin-bottom: 24px;
+}
+.statistics-display {
+  margin-top: 24px;
+}
+.admin-grade-statistics .el-statistic {
   --el-statistic-content-font-size: 28px;
+}
+
+.admin-grade-statistics .el-statistic :deep(.el-statistic__head) {
+  color: var(--app-text-muted);
+}
+
+.admin-grade-statistics .el-statistic :deep(.el-statistic__content) {
+  color: var(--app-text);
 }
 </style>

@@ -24,6 +24,11 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   response => {
+    // 文件下载等二进制响应，直接返回
+    if (response.config && response.config.responseType === 'blob') {
+      return response.data
+    }
+
     const res = response.data
 
     if (res.code === 200) {
